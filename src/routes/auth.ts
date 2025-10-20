@@ -4,15 +4,7 @@ import bcrypt from "bcrypt";
 import { registerSchema, loginSchema } from "../schemas/authSchema";
 
 export async function authRoutes(app: FastifyInstance) {
-  // decorator para autenticar rotas protegidas
-  app.decorate("authenticate", async (req: any, reply: any) => {
-    try {
-      await req.jwtVerify();
-    } catch (err) {
-      return reply.status(401).send({ error: "Unauthorized" });
-    }
-  });
-
+  
   app.post("/register", async (req, reply) => {
     const parsed = registerSchema.safeParse(req.body);
     if (!parsed.success) {
