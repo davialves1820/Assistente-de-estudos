@@ -1,8 +1,12 @@
 import 'fastify';
 
-declare module 'fastify' {
+declare module "fastify" {
   interface FastifyInstance {
-    authenticate: (request: any, reply: any) => Promise<void>;
+    authenticate: any; // 👈 você pode trocar por (request: any, reply: any) => Promise<void> se quiser tipar
+  }
+
+  interface FastifyRequest {
+    user?: any; // 👈 se você usa req.user (vindo do JWT)
   }
 }
 
