@@ -30,6 +30,12 @@ interface Progress {
   completedReviews: number;
 }
 
+interface ActivityData {
+  weeklyActivity: number[];
+  totalStudyTime: number;
+  streak: number;
+}
+
 const Dashboard = () => {
   const { user } = useAuth();
   const { fetchApi } = useApi();
@@ -37,6 +43,7 @@ const Dashboard = () => {
   
   const [plans, setPlans] = useState<StudyPlan[]>([]);
   const [progress, setProgress] = useState<Progress>({ totalPlans: 0, completedPlans: 0, totalReviews: 0, completedReviews: 0 });
+  const [activityData, setActivityData] = useState<ActivityData>({ weeklyActivity: [0, 0, 0, 0, 0, 0, 0], totalStudyTime: 0, streak: 0 });
   const [isLoading, setIsLoading] = useState(true);
   const [isCreating, setIsCreating] = useState(false);
   const [showCreateForm, setShowCreateForm] = useState(false);
@@ -53,12 +60,14 @@ const Dashboard = () => {
   const loadData = async () => {
     try {
       setIsLoading(true);
-      const [progressData, plansData] = await Promise.all([
+      const [progressData, plansData, activityResponse] = await Promise.all([
         fetchApi("/progress"),
         fetchApi("/study-plan"),
+        fetchApi("/activity"),
       ]);
       setProgress(progressData);
       setPlans(plansData || []);
+      setActivityData(activityResponse || { weeklyActivity: [0, 0, 0, 0, 0, 0, 0], totalStudyTime: 0, streak: 0 });
     } catch (error) {
       // Error handled by hook
     } finally {
@@ -193,9 +202,9 @@ const Dashboard = () => {
 
         <div className="mb-8">
           <ProgressChart
-            weeklyActivity={[3, 5, 2, 7, 4, 6, 8]}
-            totalStudyTime={12}
-            streak={5}
+            weeklyActivity={activityData.weeklyActivity}
+            totalStudyTime={activityData.totalStudyTime}
+            streak={activityData.streak}
           />
         </div>
 

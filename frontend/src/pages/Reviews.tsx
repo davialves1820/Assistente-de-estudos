@@ -41,8 +41,8 @@ const Reviews = () => {
   const loadReviews = async () => {
     try {
       setIsLoading(true);
-      // Mock data for now
-      setReviews([]);
+      const data = await fetchApi("/review");
+      setReviews(data || []);
     } catch (error) {
       // Error handled by hook
     } finally {
@@ -70,7 +70,7 @@ const Reviews = () => {
       });
 
       toast.success("Revisão criada com flashcard!");
-      setReviews([review, ...reviews]);
+      await loadReviews(); // Recarrega a lista de reviews
       setShowCreateForm(false);
       setNewReview({ subject: "", difficulty: "intermediário" });
     } catch (error) {
@@ -82,6 +82,7 @@ const Reviews = () => {
 
   const handleCompleteReview = async (id: number) => {
     try {
+      console.log(id);
       await fetchApi(`/review/${id}/complete`, {
         method: "POST",
         body: JSON.stringify({}),
