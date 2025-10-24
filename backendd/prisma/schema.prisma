@@ -19,32 +19,31 @@ model User {
 }
 
 model StudyPlan {
-  id         Int      @id @default(autoincrement())
-  title      String
-  content    String   @db.Text
-  difficulty String   @default("intermediário")
-  completed  Boolean  @default(false)
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  durationInMinutes Int @default(0)
-  createdAt  DateTime @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id                Int      @id @default(autoincrement())
+  title             String
+  content           String   @db.Text
+  difficulty        String   @default("intermediário")
+  completed         Boolean  @default(false)
+  user              User     @relation(fields: [userId], references: [id])
+  userId            Int
+  durationInMinutes Int      @default(0)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @default(now()) @updatedAt
 }
 
 model Review {
-  id         Int         @id @default(autoincrement())
-  question   String      @db.Text
-  answer     String      @db.Text
-  difficulty String      @default("intermediário")
-  completed  Boolean     @default(false)
-  user       User        @relation(fields: [userId], references: [id])
-  userId     Int
-  flashcards Flashcard[]
-  durationInMinutes Int @default(0)
-  createdAt  DateTime    @default(now())
-  updatedAt DateTime @updatedAt @default(now())
+  id                Int         @id @default(autoincrement())
+  question          String      @db.Text
+  answer            String      @db.Text
+  difficulty        String      @default("intermediário")
+  completed         Boolean     @default(false)
+  user              User        @relation(fields: [userId], references: [id])
+  userId            Int
+  flashcards        Flashcard[]
+  durationInMinutes Int         @default(0)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @default(now()) @updatedAt
 }
-
 
 model Flashcard {
   id        Int      @id @default(autoincrement())
