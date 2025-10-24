@@ -27,6 +27,7 @@ model StudyPlan {
   user       User     @relation(fields: [userId], references: [id])
   userId     Int
   createdAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
 
 model Review {
@@ -39,7 +40,9 @@ model Review {
   userId     Int
   flashcards Flashcard[]
   createdAt  DateTime    @default(now())
+  updatedAt DateTime @updatedAt @default(now())
 }
+
 
 model Flashcard {
   id        Int      @id @default(autoincrement())
