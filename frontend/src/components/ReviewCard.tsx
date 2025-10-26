@@ -2,7 +2,18 @@ import { useState } from "react";
 import { Card } from "@/components/card";
 import { Button } from "@/components/button";
 import { Badge } from "@/components/badge";
-import { Lightbulb, CheckCircle2, ChevronDown, ChevronUp } from "lucide-react";
+import { Lightbulb, CheckCircle2, ChevronDown, ChevronUp, Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/alert-dialog";
 
 interface ReviewCardProps {
   id: number;
@@ -11,9 +22,10 @@ interface ReviewCardProps {
   difficulty: string;
   completed: boolean;
   onComplete: (id: number) => void;
+  onDelete?: (id: number) => void;
 }
 
-export const ReviewCard = ({ id, question, answer, difficulty, completed, onComplete }: ReviewCardProps) => {
+export const ReviewCard = ({ id, question, answer, difficulty, completed, onComplete, onDelete }: ReviewCardProps) => {
   const [showAnswer, setShowAnswer] = useState(false);
   
   const difficultyColors = {
@@ -85,6 +97,31 @@ export const ReviewCard = ({ id, question, answer, difficulty, completed, onComp
             >
               Marcar como Concluído
             </Button>
+          )}
+
+          {onDelete && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm" className="w-full">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Deletar Revisão
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Deletar revisão?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta ação não pode ser desfeita. Esta revisão será permanentemente removida.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onDelete(id)}>
+                    Deletar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           )}
         </div>
       </div>

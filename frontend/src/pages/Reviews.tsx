@@ -82,14 +82,25 @@ const Reviews = () => {
 
   const handleCompleteReview = async (id: number) => {
     try {
-      console.log(id);
       await fetchApi(`/review/${id}/complete`, {
         method: "POST",
-        body: JSON.stringify({}),
       });
       
       toast.success("Revisão concluída!");
       setReviews(reviews.map(r => r.id === id ? { ...r, completed: true } : r));
+    } catch (error) {
+      // Error handled by hook
+    }
+  };
+
+  const handleDeleteReview = async (id: number) => {
+    try {
+      await fetchApi(`/review/${id}`, {
+        method: "DELETE",
+      });
+      
+      toast.success("Revisão deletada com sucesso!");
+      await loadReviews();
     } catch (error) {
       // Error handled by hook
     }
@@ -192,6 +203,7 @@ const Reviews = () => {
                   key={review.id} 
                   {...review}
                   onComplete={handleCompleteReview}
+                  onDelete={handleDeleteReview}
                 />
               ))}
             </div>

@@ -107,6 +107,20 @@ const Dashboard = () => {
     }
   };
 
+  const handleDeletePlan = async (id: number) => {
+    try {
+      await fetchApi(`/study-plan/${id}`, {
+        method: "DELETE",
+        body: JSON.stringify({}),
+      });
+      
+      toast.success("Plano deletado com sucesso!");
+      await loadData();
+    } catch (error) {
+      // Error handled by hook
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -223,7 +237,7 @@ const Dashboard = () => {
           ) : (
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {plans.map((plan) => (
-                <PlanCard key={plan.id} {...plan} />
+                <PlanCard key={plan.id} {...plan} onDelete={handleDeletePlan} />
               ))}
             </div>
           )}

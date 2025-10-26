@@ -1,8 +1,19 @@
 import { Card } from "@/components/card";
 import { Button } from "@/components/button";
 import { Badge } from "@/components/badge";
-import { BookOpen, CheckCircle2, Clock } from "lucide-react";
+import { BookOpen, CheckCircle2, Clock, Trash2 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/alert-dialog";
 
 interface PlanCardProps {
   id: number;
@@ -10,9 +21,10 @@ interface PlanCardProps {
   difficulty: string;
   completed: boolean;
   createdAt: string;
+  onDelete?: (id: number) => void;
 }
 
-export const PlanCard = ({ id, title, difficulty, completed, createdAt }: PlanCardProps) => {
+export const PlanCard = ({ id, title, difficulty, completed, createdAt, onDelete }: PlanCardProps) => {
   const navigate = useNavigate();
   
   const difficultyColors = {
@@ -53,14 +65,40 @@ export const PlanCard = ({ id, title, difficulty, completed, createdAt }: PlanCa
           )}
         </div>
 
-        <Button 
-          variant="outline" 
-          size="sm" 
-          className="w-full"
-          onClick={() => navigate(`/plan/${id}`)}
-        >
-          Ver Detalhes
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="flex-1"
+            onClick={() => navigate(`/plan/${id}`)}
+          >
+            Ver Detalhes
+          </Button>
+          
+          {onDelete && (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Trash2 className="h-4 w-4" />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Deletar plano de estudos?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Esta ação não pode ser desfeita. O plano "{title}" será permanentemente removido.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                  <AlertDialogAction onClick={() => onDelete(id)}>
+                    Deletar
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          )}
+        </div>
       </div>
     </Card>
   );
