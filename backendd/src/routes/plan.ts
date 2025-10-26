@@ -41,19 +41,19 @@ export async function planRoutes(app: FastifyInstance) {
     return reply.send(progress);
   });
 
-  // 🆕 Listar todos os planos do usuário
+  // Listar todos os planos do usuário
   app.get("/study-plan", { preValidation: [app.authenticate] }, async (req: any, reply) => {
     const user = req.user;
 
     const plans = await prisma.studyPlan.findMany({
       where: { userId: user.id },
-      orderBy: { createdAt: "desc" }, // opcional: mais recentes primeiro
+      orderBy: { createdAt: "desc" },
     });
 
     return reply.send(plans);
   });
 
-  // 🆕 Buscar um plano específico por ID
+  // Buscar um plano específico por ID
   app.get("/study-plan/:id", { preValidation: [app.authenticate] }, async (req: any, reply) => {
     const user = req.user;
     const planId = Number(req.params.id);
@@ -67,5 +67,25 @@ export async function planRoutes(app: FastifyInstance) {
     }
 
     return reply.send(plan);
+  });
+
+  // Deletar um plano de estudos
+  app.delete("/study-plan/:id", { preValidation: [app.authenticate] }, async (req: any, reply) => {
+    const user = req.user;
+    const planId = Number(req.params.id);
+
+    const plan = await prisma.studyPlan.findUnique({
+      where: { id: planId },
+    });
+
+    if (!plan || plan.userId !== user.id) {
+      return reply.status(404).send({ error: "Plano não encontrado ou acesso negado" });
+    }
+
+    await prisma.studyPlan.delete({
+      where: { id: planId },
+    });
+
+    return reply.send({ message: "Plano deletado com sucesso" });
   });
 }

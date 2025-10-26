@@ -62,11 +62,38 @@ export async function reviewRoutes(app: FastifyInstance) {
         userId: user.id,
       },
       include: {
-        flashcards: true, // opcional — útil pra mostrar os flashcards dessa revisão
+        flashcards: true,
       },
     });
 
     if (!review) return reply.status(404).send({ error: "Revisão não encontrada" });
     return reply.send(review);
+  });
+
+  // Deletar uma revisão específica
+  app.delete("/review/:id", { preValidation: [app.authenticate] }, async (req: any, reply) => {
+    const user = req.user;
+    const reviewId = Number(req.params.id);
+
+    const review = await prisma.review.findUnique({
+      where: { id: reviewId },
+      include: { flashcards: true },
+    });
+
+    if (!review || review.userId !== user.id) {
+      return reply.status(404).send({ error: "Revisão não encontrada ou acesso negado" });
+    }
+
+    // Deleta os flashcards relacionados primeiro (para evitar erro de chave estrangeira)
+    await prisma.flashcard.deleteMany({
+      where: { reviewId },
+    });
+
+    // Depois deleta a revisão
+    await prisma.review.delete({
+      where: { id: reviewId },
+    });
+
+    return reply.send({ message: "Revisão deletada com sucesso" });
   });
 }

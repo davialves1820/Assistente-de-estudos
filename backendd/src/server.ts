@@ -12,6 +12,7 @@ const app = fastify();
 app.register(fastifyCors, {
   origin: ["http://localhost:8080", "http://localhost:5173"], // coloque a porta do seu frontend
   credentials: true, // permite envio de cookies/autorização se precisar
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
 });
 
 app.register(fastifyJwt, { secret: process.env.JWT_SECRET || "supersecret" });
