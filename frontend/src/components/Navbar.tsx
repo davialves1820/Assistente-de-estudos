@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/button";
 import { useAuth } from "@/contexts/AuthContext";
 import { Brain, LogOut, LayoutDashboard, Lightbulb } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 export const Navbar = () => {
   const { user, logout } = useAuth();
@@ -16,6 +17,7 @@ export const Navbar = () => {
         </Link>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           {user ? (
             <>
               <Button variant="ghost" size="sm" onClick={() => navigate("/dashboard")}>
