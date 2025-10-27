@@ -36,10 +36,7 @@ const Index = () => {
         
         <div className="container relative mx-auto px-4 py-20">
           <div className="mx-auto max-w-4xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-medium text-primary">
-              <Sparkles className="h-4 w-4" />
-              Powered by AI
-            </div>
+            
             
             <h1 className="mb-6 text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
               Estude de forma{" "}
