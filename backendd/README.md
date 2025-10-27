@@ -39,17 +39,11 @@ O backend é desenvolvido em **TypeScript** usando **Fastify**, **Prisma** e a A
    - Flashcards automáticos.
    - Marcar revisões como concluídas e acumular pontos.
 
-4. **Gamificação**
-   - Sistema de pontos:
-     - +10 pontos por plano concluído.
-     - +5 pontos por revisão concluída.
-   - Histórico e cálculo de progresso do usuário.
-
-5. **Endpoints de progresso**
+4. **Endpoints de progresso**
    - Visualizar percentual de progresso de planos e revisões.
    - Contabilização automática de atividades concluídas.
 
-6. **Preparado para futuras funcionalidades**
+5. **Preparado para futuras funcionalidades**
    - Notificações e lembretes de estudo.
    - Grupos de estudo e compartilhamento de planos.
 
@@ -86,6 +80,7 @@ O backend é desenvolvido em **TypeScript** usando **Fastify**, **Prisma** e a A
 │  │  ├─ authSchema.ts
 │  │  └─ studySchema.ts
 │  └─ routes/
+│     ├─ activity.ts
 │     ├─ authRoutes.ts
 │     ├─ planRoutes.ts
 │     └─ reviewRoutes.ts
