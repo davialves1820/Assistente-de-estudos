@@ -1,6 +1,6 @@
 # 🎓 Assistente de Estudos
 
-Aplicativo voltado para apoiar estudantes no **planejamento, registro e acompanhamento** de sessões de estudo de forma simples e eficaz.
+Sistema voltado para apoiar estudantes no **planejamento, registro e acompanhamento** de sessões de estudo de forma simples e eficaz.
 
 ---
 
